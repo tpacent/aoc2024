@@ -3,48 +3,28 @@ package day1_test
 import (
 	"aoc24/day1"
 	"aoc24/lib"
-	"os"
-	"strconv"
-	"strings"
 	"testing"
 )
 
 func TestPartOne(t *testing.T) {
-	l, r, err := prepareLists("testdata/one.txt")
-	if err != nil {
-		t.Fatal(err)
-	}
-	actual := day1.DiffLists(l, r)
+
+	actual := day1.DiffLists(prepareLists("testdata/input.txt"))
 	t.Log(actual) // 2176849
 }
 
 func TestPartTwo(t *testing.T) {
-	l, r, err := prepareLists("testdata/one.txt")
-	if err != nil {
-		t.Fatal(err)
-	}
-	actual := day1.DiffMap(l, r)
+	actual := day1.DiffMap(prepareLists("testdata/input.txt"))
 	t.Log(actual) // 23384288
 }
 
-func prepareLists(filename string) (left, right []int, _ error) {
-	input, err := os.Open(filename)
-	if err != nil {
-		return nil, nil, err
-	}
-	defer input.Close()
-	for vals := range lib.ReadInput(input, parseNums) {
+func prepareLists(filename string) (left, right []int) {
+	file := lib.MustOpenFile(filename)
+	defer file.Close()
+	for vals := range lib.ReadInput(file, lib.NumsLine) {
 		left = append(left, vals[0])
 		right = append(right, vals[1])
 	}
 	return
-}
-
-func parseNums(s string) [2]int {
-	flds := strings.Fields(s)
-	a, _ := strconv.Atoi(flds[0])
-	b, _ := strconv.Atoi(flds[1])
-	return [2]int{a, b}
 }
 
 func TestExample(t *testing.T) {

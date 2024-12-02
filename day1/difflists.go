@@ -1,6 +1,7 @@
 package day1
 
 import (
+	"aoc24/lib"
 	"slices"
 )
 
@@ -8,7 +9,7 @@ func DiffLists(left, right []int) (total int) {
 	slices.Sort(left)
 	slices.Sort(right)
 	for k := 0; k < len(left); k++ {
-		total += diff(left[k], right[k])
+		total += lib.AbsDiff(left[k], right[k])
 	}
 	return
 }
@@ -25,12 +26,4 @@ func DiffMap(left, right []int) (total int) {
 	}
 
 	return
-}
-
-func diff(a, b int) int {
-	if a > b {
-		return a - b
-	}
-
-	return b - a
 }
