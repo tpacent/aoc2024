@@ -1,6 +1,10 @@
 package lib
 
-import "golang.org/x/exp/constraints"
+import (
+	"strconv"
+
+	"golang.org/x/exp/constraints"
+)
 
 type Number interface {
 	constraints.Integer | constraints.Float
@@ -12,4 +16,12 @@ func AbsDiff[T Number](a, b T) T {
 	}
 
 	return b - a
+}
+
+func MustParse(s string) int {
+	n, err := strconv.Atoi(s)
+	if err != nil {
+		panic(err)
+	}
+	return n
 }
