@@ -5,44 +5,6 @@ import "aoc24/lib"
 const safeDiffMax = 3
 const safeDiffMin = 1
 
-func IsSafe(levels []int) bool {
-	var predicate func(a, b int) bool
-
-	if levels[0] < levels[1] {
-		predicate = isInc
-	} else {
-		predicate = isDec
-	}
-
-	for k := 1; k < len(levels); k++ {
-		a, b := levels[k-1], levels[k]
-
-		if !predicate(a, b) {
-			return false
-		}
-
-		if lib.AbsDiff(a, b) > safeDiffMax {
-			return false
-		}
-	}
-
-	return true
-}
-
-func IsSafeRecover(levels []int) bool {
-	if IsSafe(levels) {
-		return true
-	}
-
-	for k := 0; k < len(levels); k++ {
-		if IsSafe(Pluck(levels, k)) {
-			return true
-		}
-	}
-
-	return false
-}
-
 func IsSafeDamped(levels []int, errors int) bool {
 	if errors < 0 {
 		return false
@@ -60,11 +22,17 @@ func IsSafeDamped(levels []int, errors int) bool {
 		a, b := levels[k-1], levels[k]
 
 		if !predicate(a, b) {
-			return IsSafeDamped(Pluck(levels, k-1), errors-1)
+			for _, pos := range []int{k - 2, k - 1, k} {
+				if pos >= 0 && IsSafeDamped(Pluck(levels, pos), errors-1) {
+					return true
+				}
+			}
+
+			return false
 		}
 
-		if lib.AbsDiff(a, b) > safeDiffMax || lib.AbsDiff(a, b) < safeDiffMin {
-			return IsSafeDamped(Pluck(levels, k), errors-1) || IsSafeDamped(Pluck(levels, k-1), errors-1)
+		if !safeDiff(a, b) {
+			return IsSafeDamped(Pluck(levels, k-1), errors-1) || IsSafeDamped(Pluck(levels, k), errors-1)
 		}
 	}
 
@@ -84,31 +52,6 @@ func isInc(a, b int) bool {
 
 func isDec(a, b int) bool {
 	return a > b
-}
-
-func Violations(levels []int) int {
-	var (
-		incs, decs int
-		diffs      int
-	)
-
-	for k := 1; k < len(levels); k++ {
-		a, b := levels[k-1], levels[k]
-
-		if !safeDiff(a, b) {
-			diffs++
-		}
-
-		if a > b {
-			decs++
-		}
-
-		if a < b {
-			incs++
-		}
-	}
-
-	return diffs + min(incs, decs)
 }
 
 func safeDiff(a, b int) bool {

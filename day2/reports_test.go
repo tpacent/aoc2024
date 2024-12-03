@@ -29,7 +29,7 @@ func TestPartTwo(t *testing.T) {
 	var safeReports int
 
 	for r := range lib.ReadInput(file, lib.NumsLine) {
-		if day2.IsSafeRecover(r) {
+		if day2.IsSafeDamped(r, 1) {
 			safeReports++
 		}
 	}
@@ -52,7 +52,7 @@ func TestExample(t *testing.T) {
 
 	for index, tcase := range tests {
 		t.Run(fmt.Sprintf("test %d", index), func(t *testing.T) {
-			actual := day2.IsSafe(tcase.Report)
+			actual := day2.IsSafeDamped(tcase.Report, 0)
 			if actual != tcase.Expect {
 				t.Error("unexpected")
 			}
@@ -81,10 +81,4 @@ func TestExample2(t *testing.T) {
 			}
 		})
 	}
-}
-
-func TestExample3(t *testing.T) {
-	input := []int{9, 4, 7, 10, 13}
-	actual := day2.IsSafeDamped(input, 1)
-	t.Log(actual)
 }
