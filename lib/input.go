@@ -2,6 +2,8 @@ package lib
 
 import (
 	"bufio"
+	"bytes"
+	"errors"
 	"io"
 	"iter"
 	"os"
@@ -35,5 +37,31 @@ func NumsLine(s string) (nums []int) {
 		n, _ := strconv.Atoi(f)
 		nums = append(nums, n)
 	}
+	return
+}
+
+func ReadGrid[T any](src io.Reader, makeVal func(byte) T) (w, h int, data []T) {
+	r := bufio.NewReader(src)
+
+	for {
+		line, err := r.ReadBytes('\n')
+		chunk := bytes.TrimSuffix(line, []byte{'\n'})
+
+		if len(chunk) > 0 {
+			values := make([]T, 0, len(chunk))
+			for _, b := range chunk {
+				values = append(values, makeVal(b))
+			}
+
+			data = append(data, values...)
+			h++
+		}
+
+		if errors.Is(err, io.EOF) {
+			break
+		}
+	}
+
+	w = len(data) / h
 	return
 }
