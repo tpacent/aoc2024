@@ -5,11 +5,11 @@ import "aoc24/lib"
 type Dir uint8
 
 const (
-	DirUnknown = iota
-	DirU
-	DirD
-	DirL
-	DirR
+	DirUnknown = 0
+	DirU       = 0b0001
+	DirD       = 0b0010
+	DirL       = 0b0100
+	DirR       = 0b1000
 )
 
 var dirs = map[Dir][2]int{
@@ -19,62 +19,62 @@ var dirs = map[Dir][2]int{
 	DirR: {1, 0},
 }
 
-type Cell struct {
-	Empty   bool
-	Visited bool
-}
-
-type State struct {
-	X, Y int
-	Dir  Dir
-}
-
-func NewWalker(grid *lib.Grid[Cell], state State) *Walker {
+func NewWalker(grid *lib.Grid[byte]) *Walker {
 	return &Walker{
-		grid:  grid,
-		state: state,
+		grid:    grid,
+		visited: make(map[[2]int]Dir),
 	}
 }
 
 type Walker struct {
-	grid  *lib.Grid[Cell]
-	state State
+	grid    *lib.Grid[byte]
+	visited map[[2]int]Dir
 }
 
-func (w *Walker) Walk() int {
-	x, y := w.state.X, w.state.Y
-	visited := map[[2]int]struct{}{
-		{x, y}: {},
-	}
-
+func (w *Walker) Walk(x, y int, dir Dir) (int, bool) {
 	for {
-		dirDeltas := dirs[w.state.Dir]
-		nx, ny := x+dirDeltas[0], y+dirDeltas[1]
+		if dirs, ok := w.visited[[2]int{x, y}]; ok && (dirs&dir > 0) {
+			return len(w.visited), false
+		} else {
+			w.visited[[2]int{x, y}] |= dir
+		}
+
+		dirDeltas := dirs[dir]
+		dx, dy := dirDeltas[0], dirDeltas[1]
+		nx, ny := x+dx, y+dy
 		nextCell, ok := w.grid.At(nx, ny)
 
 		if !ok {
 			break // outside grid
 		}
 
-		if !nextCell.Empty {
-			// turn right
-			switch w.state.Dir {
-			case DirU:
-				w.state.Dir = DirR
-			case DirR:
-				w.state.Dir = DirD
-			case DirD:
-				w.state.Dir = DirL
-			case DirL:
-				w.state.Dir = DirU
-			}
+		if nextCell == '#' { // true = blocked
+			dir = nextDir(dir)
 			continue
 		}
 
 		x = nx
 		y = ny
-		visited[[2]int{x, y}] = struct{}{}
 	}
 
-	return len(visited)
+	return len(w.visited), true
+}
+
+func (w *Walker) Visited() map[[2]int]Dir {
+	return w.visited
+}
+
+func nextDir(dir Dir) Dir {
+	switch dir {
+	case DirU:
+		return DirR
+	case DirR:
+		return DirD
+	case DirD:
+		return DirL
+	case DirL:
+		return DirU
+	}
+
+	panic("unreachable")
 }

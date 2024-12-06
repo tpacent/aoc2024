@@ -1,6 +1,10 @@
 package lib
 
-import "iter"
+import (
+	"fmt"
+	"iter"
+	"slices"
+)
 
 type WithCoords[T any] struct {
 	Value T
@@ -28,6 +32,20 @@ func (g *Grid[T]) Height() int {
 	return g.h
 }
 
+func (g *Grid[T]) Clone() *Grid[T] {
+	return NewGrid(g.w, g.h, slices.Clone(g.items))
+}
+
+func (g *Grid[T]) Find(predicate func(WithCoords[T]) bool) (WithCoords[T], bool) {
+	for _, item := range g.Iter() {
+		if predicate(item) {
+			return item, true
+		}
+	}
+
+	return WithCoords[T]{}, false
+}
+
 func (g *Grid[T]) index(x, y int) int {
 	return g.w*y + x
 }
@@ -48,6 +66,10 @@ func (g *Grid[T]) At(x, y int) (zero T, ok bool) {
 	}
 
 	return g.items[index], true
+}
+
+func (g *Grid[T]) Set(x, y int, value T) {
+	g.items[g.index(x, y)] = value
 }
 
 func (g *Grid[T]) AtUnsafe(x, y int) T {
@@ -88,4 +110,14 @@ func (g *Grid[T]) Around(x, y int) iter.Seq[WithCoords[T]] {
 			}
 		}
 	}
+}
+
+func (g *Grid[T]) Print(charfunc func(WithCoords[T]) rune) {
+	for index, item := range g.Iter() {
+		fmt.Print(string(charfunc(item)))
+		if index > 0 && (index+1)%g.w == 0 {
+			fmt.Println()
+		}
+	}
+	fmt.Println()
 }
