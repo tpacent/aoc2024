@@ -2,12 +2,12 @@ package lib
 
 import (
 	"strconv"
-
-	"golang.org/x/exp/constraints"
 )
 
 type Number interface {
-	constraints.Integer | constraints.Float
+	~int | ~int8 | ~int16 | ~int32 | ~int64 |
+		~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 |
+		~float32 | ~float64
 }
 
 func AbsDiff[T Number](a, b T) T {
