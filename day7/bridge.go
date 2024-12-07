@@ -4,28 +4,44 @@ import (
 	"iter"
 )
 
-func Permute[T any](alphabet []T, len int) iter.Seq[[]T] {
-	return permuteRec(make([]T, 0, len), alphabet, len)
+type Task struct {
+	Result int
+	Nums   []int
 }
 
-func permuteRec[T any](base []T, variants []T, remaining int) iter.Seq[[]T] {
-	if remaining == 0 {
-		return func(yield func([]T) bool) { yield(base) }
+func MatchExpr(task Task, ops []Op) bool {
+	for value := range permuteNums(task.Result, ops, task.Nums[1:], task.Nums[0]) {
+		if value == task.Result {
+			return true
+		}
 	}
 
-	return func(yield func([]T) bool) {
-		vec := make([]T, len(base)+1)
-		copy(vec, base)
+	return false
+}
 
-		for _, v := range variants {
-			vec[len(vec)-1] = v
-			for result := range permuteRec(vec, variants, remaining-1) {
+func permuteNums(target int, ops []Op, operands []int, prev int) iter.Seq[int] {
+	if prev > target {
+		return func(yield func(int) bool) {}
+	}
+
+	if len(operands) == 1 {
+		return func(yield func(int) bool) {
+			for _, op := range ops {
+				if ok := yield(applyOp(op, prev, operands[0])); !ok {
+					return
+				}
+			}
+		}
+	}
+
+	return func(yield func(int) bool) {
+		for _, op := range ops {
+			for result := range permuteNums(target, ops, operands[1:], applyOp(op, prev, operands[0])) {
 				if ok := yield(result); !ok {
 					return
 				}
 			}
 		}
-
 	}
 }
 
@@ -37,20 +53,6 @@ const (
 	OpCat Op = '|'
 )
 
-func Valid(expected int, ops []Op, operands ...int) bool {
-	for ops := range Permute(ops, len(operands)-1) {
-		result := operands[0]
-		for index, op := range ops {
-			result = applyOp(op, result, operands[index+1])
-		}
-		if result == expected {
-			return true
-		}
-	}
-
-	return false
-}
-
 func applyOp(op Op, left, right int) int {
 	switch op {
 	case OpAdd:
@@ -60,7 +62,7 @@ func applyOp(op Op, left, right int) int {
 	case OpCat:
 		return catint(left, right)
 	}
-	panic("unreachable")
+	return 0
 }
 
 func catint(a, b int) int {

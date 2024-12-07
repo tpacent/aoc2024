@@ -8,33 +8,24 @@ import (
 )
 
 func TestPartOne(t *testing.T) {
-	file := lib.MustOpenFile("testdata/input.txt")
-	t.Cleanup(func() { _ = file.Close() })
-	actual := 0
-
 	ops := []day7.Op{day7.OpAdd, day7.OpMul}
-	for task := range lib.ReadInput(file, parseLine) {
-		if day7.Valid(task.Result, ops, task.Nums...) {
-			actual += task.Result
-		}
-	}
-
-	t.Log(actual) // 2941973819040
+	t.Log(runMatch(t, ops)) // 2941973819040
 }
 
 func TestPartTwo(t *testing.T) {
+	ops := []day7.Op{day7.OpAdd, day7.OpMul, day7.OpCat}
+	t.Log(runMatch(t, ops)) // 249943041417600
+}
+
+func runMatch(t *testing.T, ops []day7.Op) (sum int) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
-	actual := 0
-
-	ops := []day7.Op{day7.OpAdd, day7.OpMul, day7.OpCat}
 	for task := range lib.ReadInput(file, parseLine) {
-		if day7.Valid(task.Result, ops, task.Nums...) {
-			actual += task.Result
+		if day7.MatchExpr(task, ops) {
+			sum += task.Result
 		}
 	}
-
-	t.Log(actual) // 249943041417600
+	return
 }
 
 const exampledata = `
@@ -48,16 +39,10 @@ const exampledata = `
 21037: 9 7 18 13
 292: 11 6 16 20`
 
-type Task struct {
-	Result int
-	Nums   []int
-}
-
 func TestExample(t *testing.T) {
 	actual := 0
-	ops := []day7.Op{day7.OpAdd, day7.OpMul}
 	for task := range lib.ReadInput(strings.NewReader(strings.TrimSpace(exampledata)), parseLine) {
-		if day7.Valid(task.Result, ops, task.Nums...) {
+		if day7.MatchExpr(task, []day7.Op{day7.OpAdd, day7.OpMul}) {
 			actual += task.Result
 		}
 	}
@@ -68,9 +53,8 @@ func TestExample(t *testing.T) {
 
 func TestExample2(t *testing.T) {
 	actual := 0
-	ops := []day7.Op{day7.OpAdd, day7.OpMul, day7.OpCat}
 	for task := range lib.ReadInput(strings.NewReader(strings.TrimSpace(exampledata)), parseLine) {
-		if day7.Valid(task.Result, ops, task.Nums...) {
+		if day7.MatchExpr(task, []day7.Op{day7.OpAdd, day7.OpMul, day7.OpCat}) {
 			actual += task.Result
 		}
 	}
@@ -79,7 +63,7 @@ func TestExample2(t *testing.T) {
 	}
 }
 
-func parseLine(s string) (task Task) {
+func parseLine(s string) (task day7.Task) {
 	result, numsLine, _ := strings.Cut(s, ":")
 	task.Result = lib.MustParse(result)
 	for _, value := range strings.Fields(numsLine) {
