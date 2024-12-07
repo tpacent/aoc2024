@@ -3,7 +3,9 @@ package day7_test
 import (
 	"aoc24/day7"
 	"aoc24/lib"
+	"runtime"
 	"strings"
+	"sync"
 	"testing"
 )
 
@@ -20,12 +22,44 @@ func TestPartTwo(t *testing.T) {
 func runMatch(t *testing.T, ops []day7.Op) (sum int) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
+
+	workers := runtime.NumCPU()
+	taskC := make(chan day7.Task, workers)
+	resultC := make(chan int, workers)
+	wgTasks := &sync.WaitGroup{}
+	wgTasks.Add(workers)
+	wgResult := &sync.WaitGroup{}
+	wgResult.Add(1)
+
+	for range workers {
+		go matchWorker(wgTasks, taskC, resultC, ops)
+	}
+
+	go func() {
+		for value := range resultC {
+			sum += value
+		}
+		wgResult.Done()
+	}()
+
 	for task := range lib.ReadInput(file, parseLine) {
+		taskC <- task
+	}
+
+	close(taskC)
+	wgTasks.Wait()
+	close(resultC)
+	wgResult.Wait()
+	return
+}
+
+func matchWorker(wg *sync.WaitGroup, c chan day7.Task, r chan int, ops []day7.Op) {
+	for task := range c {
 		if day7.MatchExpr(task, ops) {
-			sum += task.Result
+			r <- task.Result
 		}
 	}
-	return
+	wg.Done()
 }
 
 const exampledata = `
