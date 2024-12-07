@@ -2,11 +2,10 @@ package day7
 
 import (
 	"iter"
-	"slices"
 )
 
 func Permute[T any](alphabet []T, len int) iter.Seq[[]T] {
-	return permuteRec(nil, alphabet, len)
+	return permuteRec(make([]T, 0, len), alphabet, len)
 }
 
 func permuteRec[T any](base []T, variants []T, remaining int) iter.Seq[[]T] {
@@ -14,10 +13,10 @@ func permuteRec[T any](base []T, variants []T, remaining int) iter.Seq[[]T] {
 		return func(yield func([]T) bool) { yield(base) }
 	}
 
-	var zero T
-
 	return func(yield func([]T) bool) {
-		vec := append(slices.Clone(base), zero)
+		vec := make([]T, len(base)+1)
+		copy(vec, base)
+
 		for _, v := range variants {
 			vec[len(vec)-1] = v
 			for result := range permuteRec(vec, variants, remaining-1) {
@@ -30,7 +29,7 @@ func permuteRec[T any](base []T, variants []T, remaining int) iter.Seq[[]T] {
 	}
 }
 
-type Op rune
+type Op byte
 
 const (
 	OpAdd Op = '+'
