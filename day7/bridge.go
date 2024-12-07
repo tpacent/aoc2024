@@ -1,10 +1,8 @@
 package day7
 
 import (
-	"aoc24/lib"
 	"iter"
 	"slices"
-	"strconv"
 )
 
 func Permute[T any](alphabet []T, len int) iter.Seq[[]T] {
@@ -16,9 +14,13 @@ func permuteRec[T any](base []T, variants []T, remaining int) iter.Seq[[]T] {
 		return func(yield func([]T) bool) { yield(base) }
 	}
 
+	var zero T
+
 	return func(yield func([]T) bool) {
+		vec := append(slices.Clone(base), zero)
 		for _, v := range variants {
-			for result := range permuteRec(append(slices.Clone(base), v), variants, remaining-1) {
+			vec[len(vec)-1] = v
+			for result := range permuteRec(vec, variants, remaining-1) {
 				if ok := yield(result); !ok {
 					return
 				}
@@ -57,8 +59,18 @@ func applyOp(op Op, left, right int) int {
 	case OpMul:
 		return left * right
 	case OpCat:
-		return lib.MustParse(strconv.Itoa(left) + strconv.Itoa(right))
-	default:
-		panic("unreachable")
+		return catint(left, right)
 	}
+	panic("unreachable")
+}
+
+func catint(a, b int) int {
+	tmp := b
+
+	for tmp > 0 {
+		a *= 10
+		tmp /= 10
+	}
+
+	return a + b
 }
