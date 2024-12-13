@@ -25,3 +25,11 @@ func MustParse(s string) int {
 	}
 	return n
 }
+
+func NumDigits(n int) (count int) {
+	for n > 0 {
+		n /= 10
+		count++
+	}
+	return
+}
