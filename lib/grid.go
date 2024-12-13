@@ -6,9 +6,13 @@ import (
 	"slices"
 )
 
+type Coords struct {
+	X, Y int
+}
+
 type WithCoords[T any] struct {
 	Value T
-	X, Y  int
+	Coords
 }
 
 func NewGrid[T any](w, h int, data []T) *Grid[T] {
@@ -46,6 +50,18 @@ func (g *Grid[T]) Find(predicate func(WithCoords[T]) bool) (WithCoords[T], bool)
 	return WithCoords[T]{}, false
 }
 
+func (g *Grid[T]) FindAll(predicate func(WithCoords[T]) bool) iter.Seq[WithCoords[T]] {
+	return func(yield func(WithCoords[T]) bool) {
+		for _, item := range g.Iter() {
+			if predicate(item) {
+				if ok := yield(item); !ok {
+					return
+				}
+			}
+		}
+	}
+}
+
 func (g *Grid[T]) index(x, y int) int {
 	return g.w*y + x
 }
@@ -81,7 +97,7 @@ func (g *Grid[T]) Iter() iter.Seq2[int, WithCoords[T]] {
 	return func(yield func(int, WithCoords[T]) bool) {
 		for i, value := range g.items {
 			x, y := g.coords(i)
-			item := WithCoords[T]{value, x, y}
+			item := WithCoords[T]{value, Coords{x, y}}
 			if ok := yield(i, item); !ok {
 				return
 			}
@@ -89,15 +105,21 @@ func (g *Grid[T]) Iter() iter.Seq2[int, WithCoords[T]] {
 	}
 }
 
-func (g *Grid[T]) Around(x, y int) iter.Seq[WithCoords[T]] {
-	check := [][2]int{
+func Deltas8(x, y int) [][2]int {
+	return [][2]int{
 		{x - 1, y - 1}, {x, y - 1}, {x + 1, y - 1},
 		{x - 1, y} /* current  tile */, {x + 1, y},
 		{x - 1, y + 1}, {x, y + 1}, {x + 1, y + 1},
 	}
+}
 
+func Deltas4(x, y int) [][2]int {
+	return [][2]int{{x, y - 1}, {x + 1, y}, {x, y + 1}, {x - 1, y}}
+}
+
+func (g *Grid[T]) Around(x, y int, deltas func(x, y int) [][2]int) iter.Seq[WithCoords[T]] {
 	return func(yield func(WithCoords[T]) bool) {
-		for _, tuple := range check {
+		for _, tuple := range deltas(x, y) {
 			x, y := tuple[0], tuple[1]
 			value, ok := g.At(x, y)
 
@@ -105,7 +127,7 @@ func (g *Grid[T]) Around(x, y int) iter.Seq[WithCoords[T]] {
 				continue
 			}
 
-			if ok := yield(WithCoords[T]{value, x, y}); !ok {
+			if ok := yield(WithCoords[T]{value, Coords{x, y}}); !ok {
 				return
 			}
 		}
