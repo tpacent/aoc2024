@@ -2,6 +2,7 @@ package day14
 
 import (
 	"aoc24/lib"
+	"fmt"
 )
 
 type Bot struct {
@@ -23,7 +24,7 @@ func (s *Space) Run(steps int) {
 	}
 }
 
-func QuadrantCount(s *Space) int {
+func QuadrantCount(s *Space) [5]int {
 	quadCounts := [5]int{} // 0 is no quadrant
 	quadFunc := quadrant(s.W, s.H)
 
@@ -31,7 +32,7 @@ func QuadrantCount(s *Space) int {
 		quadCounts[quadFunc(bot.X, bot.Y)]++
 	}
 
-	return quadCounts[1] * quadCounts[2] * quadCounts[3] * quadCounts[4]
+	return quadCounts
 }
 
 func quadrant(w, h int) func(x, y int) int {
@@ -51,4 +52,51 @@ func quadrant(w, h int) func(x, y int) int {
 		}
 		return 0
 	}
+}
+
+func SignalDetect(w, h, runlen int) func(bots []*Bot) bool {
+	botmap := make(map[[2]int]int, 1024)
+
+	return func(bots []*Bot) bool {
+		clear(botmap)
+
+		for _, bot := range bots {
+			botmap[[2]int{bot.X, bot.Y}]++
+		}
+
+		for y := 0; y < h; y++ {
+			seqCurr := 0
+			for x := 0; x < w; x++ {
+				if botmap[[2]int{x, y}] == 0 {
+					seqCurr = 0
+					continue
+				}
+				seqCurr++
+				if seqCurr >= runlen {
+					return true
+				}
+			}
+		}
+
+		return false
+	}
+}
+
+func PrintSpace(space *Space) {
+	botmap := map[[2]int]int{}
+	for _, bot := range space.Bots {
+		botmap[[2]int{bot.X, bot.Y}]++
+	}
+
+	for y := 0; y < space.H; y++ {
+		for x := 0; x < space.W; x++ {
+			if n := botmap[[2]int{x, y}]; n == 0 {
+				fmt.Print(".")
+			} else {
+				fmt.Print(n)
+			}
+		}
+		fmt.Println()
+	}
+	fmt.Println()
 }
