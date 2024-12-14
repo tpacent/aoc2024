@@ -33,3 +33,8 @@ func NumDigits(n int) (count int) {
 	}
 	return
 }
+
+// mod implements Python modulo behavior
+func Modulo(a, b int) int {
+	return (a%b + b) % b
+}
