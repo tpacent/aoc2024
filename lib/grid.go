@@ -70,7 +70,7 @@ func (g *Grid[T]) coords(index int) (x, y int) {
 	return index % g.w, index / g.w
 }
 
-func (g *Grid[T]) At(x, y int) (zero T, ok bool) {
+func (g *Grid[T]) At(x, y int) (value T, ok bool) {
 	if x < 0 || y < 0 || x >= g.w || y >= g.h {
 		return
 	}
