@@ -29,9 +29,9 @@ func TestDay22Part2(t *testing.T) {
 		return uint32(lib.MustParse(s))
 	}))
 
-	pattern, value := day22.MaxPattern(secrets, 2000+1) // off by one
+	value := day22.MaxPattern(secrets, 2000)
 
-	t.Log(value, pattern) // 2272
+	t.Log(value) // 2272
 }
 
 func TestSteps(t *testing.T) {
@@ -48,15 +48,24 @@ func TestSteps(t *testing.T) {
 
 func TestCalcStocks(t *testing.T) {
 	stocks := day22.CalcStocks(123, 10)
-	if value := stocks.Patterns[[4]int8{-1, -1, 0, 2}]; value != 6 {
+	if value := stocks.Patterns[day22.Key(-1, -1, 0, 2)]; value != 6 {
 		t.Error("unexpected value")
 	}
 }
 
 func TestExample(t *testing.T) {
-	pattern, value := day22.MaxPattern([]uint32{1, 2, 3, 2024}, 2000)
-
-	if pattern != [4]int8{-2, 1, -1, 3} || value != 23 {
-		t.Log("unexpected value")
+	if value := day22.MaxPattern([]uint32{1, 2, 3, 2024}, 2000); value != 23 {
+		t.Error("unexpected value")
 	}
+}
+
+func TestKey(t *testing.T) {
+	var b uint32
+
+	var n int8 = -9
+
+	b |= uint32(uint8(n))
+
+	t.Logf("%032b", b)
+
 }
