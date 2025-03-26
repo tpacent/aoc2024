@@ -58,14 +58,3 @@ func TestExample(t *testing.T) {
 		t.Error("unexpected value")
 	}
 }
-
-func TestKey(t *testing.T) {
-	var b uint32
-
-	var n int8 = -9
-
-	b |= uint32(uint8(n))
-
-	t.Logf("%032b", b)
-
-}
