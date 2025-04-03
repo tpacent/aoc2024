@@ -15,7 +15,8 @@ func TestPartOne(t *testing.T) {
 	t.Cleanup(func() { _ = file.Close() })
 	grid := lib.NewGrid(lib.ReadGrid(file, makeCell))
 	init, _ := grid.Find(startpos)
-	t.Log(day6.NewWalker(grid).Walk(init.X, init.Y, day6.DirU)) // 5067
+	actual, _ := day6.NewWalker(grid).Walk(init.X, init.Y, day6.DirU)
+	lib.PrintResult(t, 6, 1, actual, 5067)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -56,7 +57,7 @@ func TestPartTwo(t *testing.T) {
 	close(workChan)
 	wg.Wait()
 
-	t.Log(actual.Load()) // 1793
+	lib.PrintResult(t, 6, 2, int(actual.Load()), 1793)
 }
 
 var labmap = `

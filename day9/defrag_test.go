@@ -14,7 +14,7 @@ func TestPartOne(t *testing.T) {
 	}
 
 	iter := day9.FileIter(ParseInput(string(data)))
-	t.Log(day9.Checksum(iter)) // 6288707484810
+	lib.PrintResult(t, 9, 1, day9.Checksum(iter), 6288707484810)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -23,7 +23,7 @@ func TestPartTwo(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	t.Log(day9.FileIter2(ParseInput(string(data)))) // 6288707484810
+	lib.PrintResult(t, 9, 2, day9.FileIter2(ParseInput(string(data))), 6311837662089)
 }
 
 const example = "2333133121414131402"

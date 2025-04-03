@@ -9,19 +9,19 @@ import (
 	"testing"
 )
 
-func TestDay16Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 	runner := day16.NewMazeRunner(parseMaze(file))
-	t.Log(runner.Run()) // 85396
+	lib.PrintResult(t, 16, 1, runner.Run(), 85396)
 }
 
-func TestDay16Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 	runner := day16.NewMazeRunner(parseMaze(file))
 	runner.Run()
-	t.Log(runner.AffectedCount()) // 428
+	lib.PrintResult(t, 16, 2, runner.AffectedCount(), 428)
 }
 
 const example = `

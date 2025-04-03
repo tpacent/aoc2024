@@ -9,22 +9,22 @@ import (
 	"testing"
 )
 
-func TestDay20Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 	track, start, end := parseInput(file)
 	solver := day20.NewSolver(track)
 	solver.Prepare(start, end)
-	t.Log(solver.CountCheats(2, 100)) // 1311
+	lib.PrintResult(t, 20, 1, solver.CountCheats(2, 100), 1311)
 }
 
-func TestDay20Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 	track, start, end := parseInput(file)
 	solver := day20.NewSolver(track)
 	solver.Prepare(start, end)
-	t.Log(solver.CountCheats(20, 100)) // 961364
+	lib.PrintResult(t, 20, 2, solver.CountCheats(20, 100), 961364)
 }
 
 const example = `

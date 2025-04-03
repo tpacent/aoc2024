@@ -9,21 +9,34 @@ import (
 	"testing"
 )
 
-func TestDay19(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 	patterns, designs := parseInput(file)
 	patternSet := lib.MakeSet(patterns)
-	availableDesigns, combinations := 0, 0
+	availableDesigns := 0
 	for _, design := range designs {
 		if value := day19.CountArrangements(design, patternSet); value > 0 {
 			availableDesigns++
+		}
+	}
+
+	lib.PrintResult(t, 19, 1, availableDesigns, 308)
+}
+
+func TestPartTwo(t *testing.T) {
+	file := lib.MustOpenFile("testdata/input.txt")
+	t.Cleanup(func() { _ = file.Close() })
+	patterns, designs := parseInput(file)
+	patternSet := lib.MakeSet(patterns)
+	combinations := 0
+	for _, design := range designs {
+		if value := day19.CountArrangements(design, patternSet); value > 0 {
 			combinations += value
 		}
 	}
 
-	t.Log("designs", availableDesigns) // 308
-	t.Log("ways total", combinations)  // 662726441391898
+	lib.PrintResult(t, 19, 2, combinations, 662726441391898)
 }
 
 const example = `

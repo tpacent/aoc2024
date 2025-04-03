@@ -8,17 +8,17 @@ import (
 	"testing"
 )
 
-func TestDay17Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	vm := day17.NewVM([]int{2, 4, 1, 2, 7, 5, 1, 3, 4, 3, 5, 5, 0, 3, 3, 0}, 64584136, 0, 0)
 	vm.Run()
-	t.Log(lib.JoinInts(vm.Out())) // 3,7,1,7,2,1,0,6,3
+	lib.PrintResult(t, 17, 1, lib.JoinInts(vm.Out()), "3,7,1,7,2,1,0,6,3")
 }
 
-func TestDay17Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	expected := []int{2, 4, 1, 2, 7, 5, 1, 3, 4, 3, 5, 5, 0, 3, 3, 0}
 	values := day17.CodeBreaker(0, expected, 1)
 	slices.Sort(values)
-	t.Log(values[0]) // 37221334433268
+	lib.PrintResult(t, 17, 2, values[0], 37221334433268)
 }
 
 func TestExample(t *testing.T) {

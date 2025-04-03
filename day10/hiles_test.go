@@ -21,7 +21,7 @@ func TestPartOne(t *testing.T) {
 		total += len(day10.WalkTrail(thead, grid.Clone()))
 	}
 
-	t.Log(total) // 667
+	lib.PrintResult(t, 10, 1, total, 667)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -39,7 +39,7 @@ func TestPartTwo(t *testing.T) {
 		}
 	}
 
-	t.Log(rating) // 1344
+	lib.PrintResult(t, 10, 2, rating, 1344)
 }
 
 func pTrailHead(wc lib.WithCoords[day10.TrailPos]) bool {

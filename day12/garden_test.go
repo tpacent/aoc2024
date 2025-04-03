@@ -14,7 +14,7 @@ func TestPartOne(t *testing.T) {
 		return day12.Plot{Type: b}
 	}))
 
-	t.Log(day12.CalcTotalPerimeter(grid)) // 1533024
+	lib.PrintResult(t, 12, 1, day12.CalcTotalPerimeter(grid), 1533024)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -24,7 +24,7 @@ func TestPartTwo(t *testing.T) {
 		return day12.Plot{Type: b}
 	}))
 
-	t.Log(day12.CalcTotalWalls(grid)) // 910066
+	lib.PrintResult(t, 12, 2, day12.CalcTotalWalls(grid), 910066)
 }
 
 const example = `

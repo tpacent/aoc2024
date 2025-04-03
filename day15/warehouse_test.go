@@ -2,6 +2,7 @@ package day15_test
 
 import (
 	"aoc24/day15"
+	"aoc24/lib"
 	"bufio"
 	"iter"
 	"os"
@@ -16,7 +17,7 @@ func TestPartOne(t *testing.T) {
 		wh.Move(dir)
 	}
 
-	t.Log(day15.SumGPS(wh, 'O')) // 1360570
+	lib.PrintResult(t, 15, 1, day15.SumGPS(wh, 'O'), 1360570)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -26,7 +27,7 @@ func TestPartTwo(t *testing.T) {
 		wh.Move(dir)
 	}
 
-	t.Log(day15.SumGPS(wh, '[')) // 1381446
+	lib.PrintResult(t, 15, 2, day15.SumGPS(wh, '['), 1381446)
 }
 
 const example = `

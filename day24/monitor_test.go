@@ -9,22 +9,23 @@ import (
 	"testing"
 )
 
-func TestDay24Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { file.Close() })
 
 	regs, gates := ParseInput(file)
 	resolver := day24.NewResolver(regs, gates)
-	t.Log(day24.SolveZ(resolver)) // 57632654722854
+	lib.PrintResult(t, 24, 1, day24.SolveZ(resolver), 57632654722854)
 }
 
-func TestDay24Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { file.Close() })
 
 	regs, gates := ParseInput(file)
 	resolver := day24.NewResolver(regs, gates)
-	t.Log(strings.Join(day24.FindBrokenGates(resolver), ",")) // ckj,dbp,fdv,kdf,rpp,z15,z23,z39
+	actual := strings.Join(day24.FindBrokenGates(resolver), ",")
+	lib.PrintResult(t, 24, 2, actual, "ckj,dbp,fdv,kdf,rpp,z15,z23,z39")
 }
 
 const example = `

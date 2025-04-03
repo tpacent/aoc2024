@@ -9,12 +9,12 @@ import (
 	"testing"
 )
 
-func TestDay25Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { file.Close() })
 
-	result := day25.NaiveFitPairs(ParseInput(file))
-	t.Log(result)
+	actual := day25.NaiveFitPairs(ParseInput(file))
+	lib.PrintResult(t, 25, 1, actual, 3508)
 }
 
 const example = `

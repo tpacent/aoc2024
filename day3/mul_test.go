@@ -2,6 +2,7 @@ package day3_test
 
 import (
 	"aoc24/day3"
+	"aoc24/lib"
 	"os"
 	"testing"
 )
@@ -13,8 +14,7 @@ func TestPartOne(t *testing.T) {
 	}
 
 	actual := day3.MulSum(string(data))
-
-	t.Log(actual) // 187194524
+	lib.PrintResult(t, 3, 1, actual, 187194524)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -24,8 +24,7 @@ func TestPartTwo(t *testing.T) {
 	}
 
 	actual := day3.MulSumToggle(string(data))
-
-	t.Log(actual) // 127092535
+	lib.PrintResult(t, 3, 2, actual, 127092535)
 }
 
 func TestExample(t *testing.T) {

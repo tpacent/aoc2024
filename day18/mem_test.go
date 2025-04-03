@@ -10,14 +10,14 @@ import (
 	"aoc24/lib"
 )
 
-func TestDay18Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	grid, _ := prepareGrid(t)
 	finder := day18.NewFinder(grid)
 	steps := finder.Walk(lib.Coords{}, lib.Coords{X: 70, Y: 70}, false)
-	t.Log(steps)
+	lib.PrintResult(t, 18, 1, steps, 298)
 }
 
-func TestDay18Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	grid, coords := prepareGrid(t)
 	finder := day18.NewFinder(grid)
 	var result lib.Coords
@@ -32,7 +32,7 @@ func TestDay18Part2(t *testing.T) {
 		}
 
 	}
-	t.Log(lib.JoinInts([]int{result.X, result.Y})) // 52,32
+	lib.PrintResult(t, 18, 2, lib.JoinInts([]int{result.X, result.Y}), "52,32")
 }
 
 func prepareGrid(t *testing.T) (*lib.Grid[byte], []lib.Coords) {

@@ -11,12 +11,12 @@ import (
 
 func TestPartOne(t *testing.T) {
 	ops := []day7.Op{day7.OpAdd, day7.OpMul}
-	t.Log(runMatch(t, ops)) // 2941973819040
+	lib.PrintResult(t, 7, 1, runMatch(t, ops), 2941973819040)
 }
 
 func TestPartTwo(t *testing.T) {
 	ops := []day7.Op{day7.OpAdd, day7.OpMul, day7.OpCat}
-	t.Log(runMatch(t, ops)) // 249943041417600
+	lib.PrintResult(t, 7, 2, runMatch(t, ops), 249943041417600)
 }
 
 func runMatch(t *testing.T, ops []day7.Op) (sum int) {

@@ -7,14 +7,13 @@ import (
 )
 
 func TestPartOne(t *testing.T) {
-
 	actual := day1.DiffLists(prepareLists("testdata/input.txt"))
-	t.Log(actual) // 2176849
+	lib.PrintResult(t, 1, 1, actual, 2176849)
 }
 
 func TestPartTwo(t *testing.T) {
 	actual := day1.DiffMap(prepareLists("testdata/input.txt"))
-	t.Log(actual) // 23384288
+	lib.PrintResult(t, 1, 2, actual, 23384288)
 }
 
 func prepareLists(filename string) (left, right []int) {

@@ -14,14 +14,16 @@ func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 
-	t.Log(day13.CalcTokens(parseInput(file), 0)) // 31589
+	actual := day13.CalcTokens(parseInput(file), 0)
+	lib.PrintResult(t, 13, 1, actual, 31589)
 }
 
 func TestPartTwo(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 
-	t.Log(day13.CalcTokens(parseInput(file), 10000000000000)) // 98080815200063
+	actual := day13.CalcTokens(parseInput(file), 10000000000000)
+	lib.PrintResult(t, 13, 2, actual, 98080815200063)
 }
 
 func parseInput(src io.Reader) iter.Seq[day13.Input] {

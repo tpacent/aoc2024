@@ -9,20 +9,22 @@ import (
 	"testing"
 )
 
-func TestDay23Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { file.Close() })
 
 	graph := ParseInput(file)
 	predicate := func(s string) bool { return s[0] == 't' }
-	t.Log(day23.CountLoops(graph, predicate)) // 1323
+
+	lib.PrintResult(t, 23, 1, day23.CountLoops(graph, predicate), 1323)
 }
 
-func TestDay23Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { file.Close() })
 
-	t.Log(day23.GetPassword(ParseInput(file))) // er,fh,fi,ir,kk,lo,lp,qi,ti,vb,xf,ys,yu
+	actual := day23.GetPassword(ParseInput(file))
+	lib.PrintResult(t, 23, 2, actual, "er,fh,fi,ir,kk,lo,lp,qi,ti,vb,xf,ys,yu")
 }
 
 func ParseInput(r io.Reader) *day23.Graph {

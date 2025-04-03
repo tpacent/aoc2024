@@ -24,7 +24,7 @@ func TestPartOne(t *testing.T) {
 		}
 	}
 
-	t.Log(actual) // 3608
+	lib.PrintResult(t, 5, 1, actual, 3608)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -43,7 +43,7 @@ func TestPartTwo(t *testing.T) {
 		}
 	}
 
-	t.Log(actual) // 4922
+	lib.PrintResult(t, 5, 2, actual, 4922)
 }
 
 func readUpdate(line string) (update []int) {

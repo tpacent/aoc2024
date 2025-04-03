@@ -16,7 +16,8 @@ func TestPartOne(t *testing.T) {
 	space := &day14.Space{Bots: bots, W: 101, H: 103}
 	space.Run(100)
 	v := day14.QuadrantCount(space)
-	t.Log(v[1] * v[2] * v[3] * v[4]) // 225943500
+	actual := v[1] * v[2] * v[3] * v[4]
+	lib.PrintResult(t, 14, 1, actual, 225943500)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -34,8 +35,7 @@ func TestPartTwo(t *testing.T) {
 		}
 	}
 
-	day14.PrintSpace(space)
-	t.Log(n) // 6377
+	lib.PrintResult(t, 14, 2, n, 6377)
 }
 
 // 1111111111111111111111111111111

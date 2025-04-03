@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestDay22Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	input := lib.MustOpenFile("testdata/input.txt")
 
 	iter := lib.ReadInput(input, func(s string) uint32 {
@@ -19,10 +19,10 @@ func TestDay22Part1(t *testing.T) {
 		total += int(day22.NthStep(n, 2000))
 	}
 
-	t.Log(total) // 20401393616
+	lib.PrintResult(t, 22, 1, total, 20401393616)
 }
 
-func TestDay22Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	input := lib.MustOpenFile("testdata/input.txt")
 
 	secrets := slices.Collect(lib.ReadInput(input, func(s string) uint32 {
@@ -31,7 +31,7 @@ func TestDay22Part2(t *testing.T) {
 
 	value := day22.MaxPattern(secrets, 2000)
 
-	t.Log(value) // 2272
+	lib.PrintResult(t, 22, 2, value, 2272)
 }
 
 func TestSteps(t *testing.T) {

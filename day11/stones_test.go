@@ -21,7 +21,7 @@ func TestPartOne(t *testing.T) {
 		Stride:      5,
 	}
 
-	t.Log(day11.CountStones(parseInput(input), state, 25)) // 184927
+	lib.PrintResult(t, 11, 1, day11.CountStones(parseInput(input), state, 25), 184927)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -37,7 +37,7 @@ func TestPartTwo(t *testing.T) {
 		Stride:      5,
 	}
 
-	t.Log(day11.CountStones(parseInput(input), state, 75)) // 220357186726677
+	lib.PrintResult(t, 11, 2, day11.CountStones(parseInput(input), state, 75), 220357186726677)
 }
 
 var rules = []day11.StoneRule{

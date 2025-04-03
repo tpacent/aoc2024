@@ -19,7 +19,7 @@ func TestPartOne(t *testing.T) {
 		}
 	}
 
-	t.Log(safeReports) // 218
+	lib.PrintResult(t, 2, 1, safeReports, 218)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -34,7 +34,7 @@ func TestPartTwo(t *testing.T) {
 		}
 	}
 
-	t.Log(safeReports) // 290
+	lib.PrintResult(t, 2, 2, safeReports, 290)
 }
 
 func TestExample(t *testing.T) {

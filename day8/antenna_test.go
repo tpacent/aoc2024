@@ -18,7 +18,7 @@ func TestPartOne(t *testing.T) {
 
 	coordsByType, width, height := fillCoords(file)
 	uniqueAntinodes := antinodes(coordsByType, width, height, 1)
-	t.Log(len(uniqueAntinodes)) // 379
+	lib.PrintResult(t, 8, 1, len(uniqueAntinodes), 379)
 }
 
 func TestPartTwo(t *testing.T) {
@@ -27,7 +27,7 @@ func TestPartTwo(t *testing.T) {
 
 	coordsByType, width, height := fillCoords(file)
 	uniqueAntinodes := antinodes(coordsByType, width, height, -1)
-	t.Log(len(uniqueAntinodes)) // 1339
+	lib.PrintResult(t, 8, 2, len(uniqueAntinodes), 1339)
 }
 
 func fillCoords(r io.Reader) (_ map[byte][][2]int, width int, height int) {

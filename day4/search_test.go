@@ -13,14 +13,16 @@ func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 	grid := lib.NewGrid(lib.ReadGrid(file, byteGrid))
-	t.Log(day4.SearchDir(grid, []byte("XMAS"))) // 2639
+	actual := day4.SearchDir(grid, []byte("XMAS"))
+	lib.PrintResult(t, 4, 1, actual, 2639)
 }
 
 func TestPartTwo(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 	grid := lib.NewGrid(lib.ReadGrid(file, byteGrid))
-	t.Log(day4.SearchXMas(grid)) // 2005
+	actual := day4.SearchXMas(grid)
+	lib.PrintResult(t, 4, 2, actual, 2005)
 }
 
 const example = `

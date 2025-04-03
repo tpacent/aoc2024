@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestDay21Part1(t *testing.T) {
+func TestPartOne(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 
@@ -18,10 +18,10 @@ func TestDay21Part1(t *testing.T) {
 		actual += day21.CodeComplexity([]byte(code), 2)
 	}
 
-	t.Log(actual) // 270084
+	lib.PrintResult(t, 21, 1, actual, 270084)
 }
 
-func TestDay21Part2(t *testing.T) {
+func TestPartTwo(t *testing.T) {
 	file := lib.MustOpenFile("testdata/input.txt")
 	t.Cleanup(func() { _ = file.Close() })
 
@@ -31,7 +31,7 @@ func TestDay21Part2(t *testing.T) {
 		actual += day21.CodeComplexity([]byte(code), 25)
 	}
 
-	t.Log(actual) // 329431019997766
+	lib.PrintResult(t, 21, 2, actual, 329431019997766)
 }
 
 func TestExample(t *testing.T) {
