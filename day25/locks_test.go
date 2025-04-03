@@ -59,12 +59,11 @@ const example = `
 #####
 `
 
-func TestParseInput(t *testing.T) {
+func TestExample(t *testing.T) {
 	r := strings.NewReader(example)
-	locks, keys := ParseInput(r)
-
-	t.Log("LOCKS", locks)
-	t.Log("KEYS", keys)
+	if actual := day25.NaiveFitPairs(ParseInput(r)); actual != 3 {
+		t.Error("unexpected value")
+	}
 }
 
 func ParseInput(r io.Reader) (locks, keys []day25.Pins) {
