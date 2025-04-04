@@ -36,8 +36,8 @@ func (wh *Warehouse) Move(dir byte) {
 }
 
 func (wh *Warehouse) Print() {
-	for y := 0; y < wh.H; y++ {
-		for x := 0; x < wh.W; x++ {
+	for y := range wh.H {
+		for x := range wh.W {
 			coords := [2]int{x, y}
 
 			if coords == wh.Bot {

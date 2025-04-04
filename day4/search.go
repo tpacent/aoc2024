@@ -89,7 +89,7 @@ func checkXMAS(grid *lib.Grid[byte], x, y int) bool {
 	template := []byte("MMSS")
 
 	// rotations
-	for k := 0; k < len(corners); k++ {
+	for range corners {
 		if bytes.Equal(corners, template) {
 			return true
 		}

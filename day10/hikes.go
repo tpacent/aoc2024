@@ -2,6 +2,7 @@ package day10
 
 import (
 	"aoc24/lib"
+	"maps"
 )
 
 type TrailPos struct {
@@ -64,8 +65,6 @@ func trailRating(pos, target lib.WithCoords[TrailPos], grid *lib.Grid[TrailPos],
 
 func cloneMap[K comparable, V any](data map[K]V) map[K]V {
 	newmap := make(map[K]V, len(data))
-	for k, v := range data {
-		newmap[k] = v
-	}
+	maps.Copy(newmap, data)
 	return newmap
 }

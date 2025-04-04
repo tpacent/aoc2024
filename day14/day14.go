@@ -64,9 +64,9 @@ func SignalDetect(w, h, runlen int) func(bots []*Bot) bool {
 			botmap[[2]int{bot.X, bot.Y}]++
 		}
 
-		for y := 0; y < h; y++ {
+		for y := range h {
 			seqCurr := 0
-			for x := 0; x < w; x++ {
+			for x := range w {
 				if botmap[[2]int{x, y}] == 0 {
 					seqCurr = 0
 					continue
@@ -88,8 +88,8 @@ func PrintSpace(space *Space) {
 		botmap[[2]int{bot.X, bot.Y}]++
 	}
 
-	for y := 0; y < space.H; y++ {
-		for x := 0; x < space.W; x++ {
+	for y := range space.H {
+		for x := range space.W {
 			if n := botmap[[2]int{x, y}]; n == 0 {
 				fmt.Print(".")
 			} else {

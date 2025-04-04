@@ -8,7 +8,7 @@ import (
 func DiffLists(left, right []int) (total int) {
 	slices.Sort(left)
 	slices.Sort(right)
-	for k := 0; k < len(left); k++ {
+	for k := range left {
 		total += lib.AbsDiff(left[k], right[k])
 	}
 	return

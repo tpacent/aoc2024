@@ -7,7 +7,7 @@ import (
 
 func Permute(items [][2]int) iter.Seq[[2][2]int] {
 	return func(yield func([2][2]int) bool) {
-		for k := 0; k < len(items)-1; k++ {
+		for k := range len(items) - 1 {
 			for p := k + 1; p < len(items); p++ {
 				if ok := yield([2][2]int{items[k], items[p]}); !ok {
 					return

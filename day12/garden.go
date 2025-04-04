@@ -1,5 +1,7 @@
 package day12
 
+import "maps"
+
 import "aoc24/lib"
 
 type Plot struct {
@@ -46,9 +48,7 @@ func FloodFill(pos lib.WithCoords[Plot], grid *lib.Grid[Plot]) (int, map[Wall]ui
 		if !nextPos.Value.Visited {
 			a, perms := FloodFill(nextPos, grid)
 			area += a
-			for p, from := range perms {
-				perimeter[p] = from
-			}
+			maps.Copy(perimeter, perms)
 		}
 	}
 	return area, perimeter

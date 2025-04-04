@@ -47,7 +47,7 @@ func TestPartTwo(t *testing.T) {
 }
 
 func readUpdate(line string) (update []int) {
-	for _, c := range strings.Split(line, ",") {
+	for c := range strings.SplitSeq(line, ",") {
 		update = append(update, lib.MustParse(c))
 	}
 	return

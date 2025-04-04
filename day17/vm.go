@@ -86,7 +86,7 @@ func pow(n, p int) int {
 }
 
 func CodeBreaker(initial int, expected []int, suffix int) (out []int) {
-	for k := 0; k < 0o10; k++ {
+	for k := range 0o10 {
 		n := initial*0o10 + k
 		vm := NewVM(expected, n, 0, 0)
 		vm.Run()
